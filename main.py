@@ -20,9 +20,23 @@ def print_report(words_list : list[str],word_count :int,let_dict : dict) -> None
     print(f"{word_count} words found in the document")
     print("\n")
     for item in words_list:
-        if item.isalpha() : 
-            print(f"The '{item}' character was found {let_dict[item]} times")
+        if item['let'].isalpha(): 
+            print(f"The '{item['let']}' character was found {item['count']} times")
     print("--- End report ---")
+
+def sort_list_by_count(letter_count_dict:dict)->list[dict]:
+    cur_list = []
+    
+    def cmp(cur_dict:dict):
+        return cur_dict["count"]
+
+    for key in letter_count_dict:
+        cur_list.append({"let":key,"count":letter_count_dict[key]})
+    
+    cur_list.sort(reverse=True,key=cmp)
+
+    return cur_list
+
     
 
 def main():
@@ -31,8 +45,8 @@ def main():
    
     word_count = count(bookArr)
     letters_dict = count_let(bookArr)
-    letters = list(letters_dict)
-    letters.sort()
+    letters = sort_list_by_count(letters_dict)
+    
 
     print_report(letters,word_count,letters_dict)
 
